@@ -1,0 +1,12 @@
+[package]
+name = "sequon-io"
+description = "Format adapters between sequence files and the Sequon canonical model"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+sequon-model = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }

@@ -1,0 +1,10 @@
+[package]
+name = "sequon-model"
+description = "Canonical data model for DNA and protein sequence records"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+serde = { workspace = true }
