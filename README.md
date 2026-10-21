@@ -31,15 +31,15 @@ writing code against it.
 | Crate | Role |
 | --- | --- |
 | `sequon-model` | Canonical types and invariants. Depends on `serde` only. |
-| `sequon-io` | Adaptors between file formats and the canonical model. |
+| `sequon-io` | Adapters between file formats and the canonical model. |
 | `sequon-algo` | Translation, restriction analysis, ligation, assembly, alignment. |
 
-## Non-goals
+## Scope and non-goals
 
-- No service, daemon, HTTP API or CLI distribution layer in this repository.
-- No GUI; graphical clients consume the library.
-- No reimplementation of parsers or alignment kernels that a maintained crate
-  already provides; wrap and pin them instead.
+Embedded in a process as a library, consuming and producing canonical records.
+Not in this repository: a service, daemon, HTTP API or CLI distribution layer; a
+GUI (graphical clients consume the library); reimplementations of parsers or
+alignment kernels that a maintained crate already provides (wrap and pin them).
 
 ## Development
 
@@ -49,6 +49,4 @@ cargo clippy --all-targets --all-features -- -D warnings
 cargo test --all-features
 ```
 
-## License
-
-MIT. See [LICENSE](LICENSE).
+MIT licensed; see [LICENSE](LICENSE).
