@@ -1,0 +1,245 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": null,
+  "topology": "circular",
+  "name": "sequon-fixture-021",
+  "description": null,
+  "length": 153,
+  "sequence": "ACGTACGTGGCCTTAAGGCCTTCGAAACGTACGTTAGCATCGATCGTACGATCGATCGTAGCTAGCTAGCATCGATCGTAGCTAGCTAGCATCGATCGTAGCTAGCTAGCGATCGATCGATCGTAGCTAGCTAGCATCGATCGTAGCTAGCTA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:a9d9ad4d2364e37ba5dd01f1871ed2a49f0f6a09d6853940a7ed3dfc637ab3bc",
+    "canonical": "sha256:febecd5a83e9b504f4ba02c0acd82d364deb663e4af17d98022b804152bf1fd7"
+  },
+  "features": [
+    {
+      "key": "CDS",
+      "so_term": "SO:0000316",
+      "name": "attr",
+      "location": {
+        "operator": "span",
+        "strand": -1,
+        "segments": [
+          {
+            "start": 3,
+            "end": 12,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "codon_start",
+          "value": "1"
+        },
+        {
+          "key": "product",
+          "value": "synthetic beta-lactamase"
+        },
+        {
+          "key": "note",
+          "value": "lac & more"
+        }
+      ]
+    },
+    {
+      "key": "misc_feature",
+      "so_term": "SO:0000110",
+      "name": null,
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 3,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "note",
+          "value": "plain text value"
+        }
+      ]
+    },
+    {
+      "key": "promoter",
+      "so_term": "SO:0000167",
+      "name": null,
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 29,
+            "end": 40,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "note",
+          "value": "forward promoter"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "snapgene-dna",
+    "source_digest": "sha256:4be5c43ebfca4113348938786f5215bd7f5b3e80f559ad23c1c5b898343a582e",
+    "source_bytes": 1288,
+    "export_version": 15
+  },
+  "extras": {
+    "snapgene": {
+      "dna_flags": 1,
+      "features": [
+        {
+          "attributes": [
+            {
+              "name": "recentID",
+              "value": "0"
+            },
+            {
+              "name": "allowSegmentOverlaps",
+              "value": "0"
+            }
+          ],
+          "feature_index": 0,
+          "key": "CDS",
+          "qualifiers": [
+            {
+              "raw": "1",
+              "value_type": "int"
+            },
+            {
+              "raw": "synthetic beta-lactamase",
+              "value_type": "text"
+            },
+            {
+              "raw": "<html><body><i>lac</i> & more</body></html>",
+              "value_type": "text"
+            }
+          ],
+          "segments": [
+            {
+              "attributes": [
+                {
+                  "name": "color",
+                  "value": "#cc99b2"
+                },
+                {
+                  "name": "type",
+                  "value": "standard"
+                },
+                {
+                  "name": "translated",
+                  "value": "1"
+                }
+              ],
+              "segment_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [
+            {
+              "name": "recentID",
+              "value": "1"
+            }
+          ],
+          "feature_index": 1,
+          "key": "misc_feature",
+          "qualifiers": [
+            {
+              "raw": "plain text value",
+              "value_type": "text"
+            }
+          ],
+          "segments": [
+            {
+              "attributes": [
+                {
+                  "name": "color",
+                  "value": "#99ccff"
+                }
+              ],
+              "segment_index": 0
+            }
+          ]
+        },
+        {
+          "attributes": [
+            {
+              "name": "recentID",
+              "value": "2"
+            }
+          ],
+          "feature_index": 2,
+          "key": "promoter",
+          "qualifiers": [
+            {
+              "raw": "forward promoter",
+              "value_type": "text"
+            }
+          ],
+          "segments": [
+            {
+              "attributes": [
+                {
+                  "name": "type",
+                  "value": "standard"
+                }
+              ],
+              "segment_index": 0
+            }
+          ]
+        }
+      ],
+      "notes": [
+        {
+          "attributes": [],
+          "name": "UUID",
+          "value": "00000000-0000-4000-8000-000000000001"
+        },
+        {
+          "attributes": [],
+          "name": "Type",
+          "value": "Synthetic"
+        },
+        {
+          "attributes": [],
+          "name": "ConfirmedExperimentally",
+          "value": "0"
+        },
+        {
+          "attributes": [],
+          "name": "CustomMapLabel",
+          "value": "sequon-fixture-021"
+        },
+        {
+          "attributes": [],
+          "name": "UseCustomMapLabel",
+          "value": "1"
+        },
+        {
+          "attributes": [],
+          "name": "Organism",
+          "value": "synthetic construct"
+        }
+      ]
+    }
+  }
+}

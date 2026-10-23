@@ -1,0 +1,38 @@
+[package]
+name = "sequon-conformance"
+description = "Development-only conformance harness for Sequon schemas, fixtures and cross-format comparison"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+# Development tool only: not in the runtime dependency tree, not published, and
+# never a dependency of sequon-model/sequon-io/sequon-algo.
+#
+# Versions verified 2026-10-21 with cargo 1.97.1:
+# - serde_json 1.0.154 (MIT OR Apache-2.0), inherited from the workspace;
+# - sha2 0.10.9 (MIT OR Apache-2.0), inherited from the workspace, used by the
+#   fixture determinism test;
+# - lzma-rs =0.3.0 (MIT, 2023-01-04), documented in docs/design/snapgene-dna.md
+#   section 2.2 and pinned exactly for the history-packet builder. It is a
+#   normal dependency rather than a dev-dependency because both the builder
+#   module and the fixture-generation binary use it; this crate is still
+#   dev-only (publish = false) and absent from every runtime tree.
+#
+# Do not add other dependencies here without a design note. The harness must
+# stay small and must never become a runtime dependency of the library crates.
+[dependencies]
+lzma-rs = { version = "=0.3.0", default-features = false }
+
+[dev-dependencies]
+# The M4 reader/model/algo are dev-dependencies of this dev-only crate: goldens
+# are produced by importing with the committed reader, then validated and
+# digest-verified. Nothing here reaches a runtime tree; the adapter crates do
+# not depend on this crate. Features are explicit so the golden suite does not
+# silently pass with the snapgene adapter compiled out.
+sequon-io = { workspace = true, features = ["genbank", "snapgene"] }
+sequon-model = { workspace = true }
+sequon-algo = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }

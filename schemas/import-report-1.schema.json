@@ -1,0 +1,378 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sequon:schema:import-report:1",
+  "title": "Sequon import report (sequon/import-report/1)",
+  "description": "Import report produced by Sequon adapters. Schemas are self-contained: this document does not $ref the record schema. This JSON Schema validates structure and value domains only. Cross-field invariants are not expressible in JSON Schema and are owned by Record::validate(): records[].length equals the record sequence length, records[].sequence_digest and records[].canonical_digest equal the recomputed sha256 values, and dropped/preserved entries referring to a record agree with the bytes actually skipped or kept. The report is an event document: it is never written back into a record.",
+  "$comment": "Field order in a canonical document follows the declaration order of this schema's properties. Serialization rule for optional fields: nullable fields (description, molecule_type, feature.so_term, feature.name, diagnostic.position, diagnostic.record_index) are always present in a canonical document and are JSON null when unknown; non-nullable optional fields (dropped and preserved convenience fields) are omitted when unknown. Schema validation accepts the absence of both kinds so hand-authored documents remain valid. diagnostics are ordered deterministically; see docs/design/diagnostics.md for codes_version, severity semantics, the dropped.reason vocabulary and consumer handling of unknown codes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "source_format",
+    "source_digest",
+    "source_bytes",
+    "parser",
+    "export_version",
+    "codes_version",
+    "records",
+    "diagnostics",
+    "dropped",
+    "preserved"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sequon/import-report/1",
+      "description": "Contract identifier for this report version."
+    },
+    "source_format": {
+      "enum": [
+        "genbank",
+        "snapgene-dna"
+      ],
+      "description": "Format of the imported source. One report never mixes formats."
+    },
+    "source_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "sha256 of the exact source bytes that were imported."
+    },
+    "source_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Length of the source input in bytes."
+    },
+    "parser": {
+      "$ref": "#/$defs/parser"
+    },
+    "export_version": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "description": "SnapGene export version read from the container; null for formats that do not carry one."
+    },
+    "codes_version": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}/\\d+$",
+      "description": "Version of the diagnostic code table this report was produced with (for example '2026-10-21/1'). The table is append-only; consumers use this value to interpret codes and must tolerate codes they do not know."
+    },
+    "records": {
+      "type": "array",
+      "description": "One entry per record returned by the import, in output order. A report for a rejected import is not produced; the typed error is returned instead.",
+      "items": {
+        "$ref": "#/$defs/recordSummary"
+      }
+    },
+    "diagnostics": {
+      "type": "array",
+      "description": "Warnings and informational events, and error-severity entries for records that failed while the import still produced a usable report. Ordered deterministically by position then code.",
+      "items": {
+        "$ref": "#/$defs/diagnostic"
+      }
+    },
+    "dropped": {
+      "type": "array",
+      "description": "Blocks or features that were skipped, with a fingerprint. Mutually exclusive with 'preserved' for the same range: bytes that are kept go to 'preserved', bytes that are only fingerprinted go to 'dropped'.",
+      "items": {
+        "$ref": "#/$defs/dropped"
+      }
+    },
+    "preserved": {
+      "type": "array",
+      "description": "Raw source blocks kept verbatim (base64) because the canonical model cannot express them. The report never rewrites a record from these entries.",
+      "items": {
+        "$ref": "#/$defs/preserved"
+      }
+    }
+  },
+  "$defs": {
+    "parser": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "name",
+        "version"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "parser",
+            "algorithm",
+            "manual"
+          ],
+          "description": "'parser' for format adapters (v1 only)."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Parser name, for example 'sequon-io'."
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Parser crate version, for example '0.1.0'."
+        }
+      }
+    },
+    "recordSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "name",
+        "kind",
+        "length",
+        "sequence_digest",
+        "canonical_digest"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based position of the record in the import output. Diagnostics refer to it with record_index."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Record name as it appears in the canonical record."
+        },
+        "kind": {
+          "enum": [
+            "dna",
+            "rna",
+            "protein"
+          ]
+        },
+        "length": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of bases or residues. Record::validate() requires it to equal the record sequence length."
+        },
+        "sequence_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "Copy of the record's direction-sensitive sequence digest."
+        },
+        "canonical_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "Copy of the record's canonical digest; the permanent, rotation- and strand-invariant identity."
+        }
+      }
+    },
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "severity",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]*$",
+          "description": "Diagnostic code from docs/design/diagnostics.md. Stable identifier; consumers switch on it and must not reject a report because a code is unknown."
+        },
+        "severity": {
+          "enum": [
+            "error",
+            "warning",
+            "info"
+          ],
+          "description": "error: the record is unusable; warning: the record is usable but something was lost or reinterpreted; info: normal but worth recording."
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable explanation. Never contains sequence content or raw source bytes; positions and identifiers only."
+        },
+        "position": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/sourcePosition"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Source position, or null when the event has no position. Always present in a canonical report; null means 'not applicable'."
+        },
+        "record_index": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "description": "Index of the affected record in records[], or null when the event is not tied to one record. Always present in a canonical report."
+        }
+      }
+    },
+    "sourcePosition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "line"
+          ],
+          "properties": {
+            "kind": {
+              "const": "genbank"
+            },
+            "line": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "1-based line number in the decoded source text."
+            },
+            "column": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "1-based column, present only when the adapter knows it (for example a malformed location or qualifier). Line-only positions omit it."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "offset"
+          ],
+          "properties": {
+            "kind": {
+              "const": "snapgene"
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "0-based byte offset in the source container."
+            },
+            "packet_type": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "TLV packet type, when the position is inside a packet or the error concerns the packet header."
+            },
+            "packet_index": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "0-based index of the packet in the container's TLV sequence."
+            }
+          }
+        }
+      ],
+      "description": "Where in the source the event happened. A report carries positions of one format only, because it describes one import."
+    },
+    "dropped": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "what",
+        "reason"
+      ],
+      "properties": {
+        "what": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Adapter-defined kind of the skipped item, for example 'trace_container', 'unknown_packet', 'alignable_sequence', or 'feature'."
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Adapter-defined snake_case reason. When a diagnostic code explains the loss, reason equals that code (for example 'unsupported_location' is accompanied by GB_LOCATION_UNSUPPORTED); otherwise it is one of the reserved reasons defined in docs/design/diagnostics.md (for example 'size_limit')."
+        },
+        "record_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Record the skipped item belongs to, when it belongs to one record."
+        },
+        "position": {
+          "$ref": "#/$defs/sourcePosition"
+        },
+        "packet_type": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Convenience copy of the packet type for SnapGene items."
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Convenience copy of the 0-based byte offset of the skipped bytes."
+        },
+        "length": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Length of the skipped bytes, when known."
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "sha256 of the skipped bytes, so the loss is auditable."
+        },
+        "feature_key": {
+          "type": "string",
+          "minLength": 1,
+          "description": "GenBank feature key of a skipped feature (present only when 'what' is a feature)."
+        },
+        "location_text": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Source location text of a skipped feature, kept verbatim so the loss can be reproduced (present only when 'what' is a feature)."
+        }
+      }
+    },
+    "preserved": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "what",
+        "encoding",
+        "data"
+      ],
+      "properties": {
+        "what": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Adapter-defined kind of the kept block, for example 'unknown_packet', 'history', or 'alignable_sequence'."
+        },
+        "encoding": {
+          "const": "base64",
+          "description": "Payload encoding. v1 only defines base64."
+        },
+        "data": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "The raw bytes of the block, base64-encoded. Capped by the configured limits; oversized blocks are fingerprinted into 'dropped' instead."
+        },
+        "packet_type": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Convenience copy of the packet type for SnapGene blocks."
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Convenience copy of the 0-based byte offset of the kept bytes."
+        },
+        "length": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Length of the kept bytes before base64 encoding."
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "sha256 of the kept bytes, so a preserved block can be verified."
+        },
+        "record_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Record the kept block belongs to, when it belongs to one record."
+        }
+      }
+    }
+  }
+}

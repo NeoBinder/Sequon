@@ -4,16 +4,138 @@ on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    # Weekly short fuzz run; the job is allowed to fail and never blocks a PR.
+    - cron: "17 3 * * 1"
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: "-D warnings"
 
 jobs:
-  check:
+  contract:
+    name: fmt, clippy, tests, docs and dependency gate
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
-      - run: cargo fmt --all -- --check
-      - run: cargo clippy --all-targets --all-features -- -D warnings
-      - run: cargo test --all-features
+
+      - name: JSON Schema contract (Python)
+        run: |
+          python3 -m pip install --disable-pip-version-check --quiet "jsonschema>=4.23"
+          python3 tools/validate_contract.py
+
+      - name: Format
+        run: |
+          cargo fmt --all -- --check
+          # The fuzz crate is its own workspace and is not covered by --all.
+          cargo fmt --manifest-path fuzz/Cargo.toml -- --check
+
+      - name: Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Tests (all features)
+        run: cargo test --all-features
+
+      - name: Contract, fixture, golden and dependency suites
+        run: cargo test -p sequon-conformance --all-features
+
+      - name: Minimal core (no adapters)
+        run: cargo test -p sequon-io --no-default-features
+
+      - name: SnapGene adapter
+        run: cargo test -p sequon-io --features snapgene
+
+      - name: Documentation
+        run: cargo doc --no-deps --all-features
+
+      - name: Dependency assertions
+        run: |
+          set -euo pipefail
+
+          # The minimal build must not carry either general-purpose codec.
+          if cargo tree -p sequon-io --no-default-features | grep -Eq 'lzma-rs|quick-xml'; then
+            echo "error: lzma-rs/quick-xml leaked into the no-default-features build" >&2
+            exit 1
+          fi
+
+          # The default GenBank build must not carry them either.
+          if cargo tree -p sequon-io | grep -Eq 'lzma-rs|quick-xml'; then
+            echo "error: lzma-rs/quick-xml leaked into the default GenBank build" >&2
+            exit 1
+          fi
+
+          # Both codecs must be present when the snapgene feature is on.
+          cargo tree -p sequon-io --features snapgene | grep -q 'lzma-rs' || {
+            echo "error: lzma-rs missing from the snapgene build" >&2; exit 1; }
+          cargo tree -p sequon-io --features snapgene | grep -q 'quick-xml' || {
+            echo "error: quick-xml missing from the snapgene build" >&2; exit 1; }
+
+          # The model and the algorithm crate must stay format-free.
+          if cargo tree -p sequon-model | grep -Eq 'sha2|serde_json|lzma-rs|quick-xml|sequon-io'; then
+            echo "error: sequon-model gained a non-documented dependency" >&2
+            exit 1
+          fi
+          if cargo tree -p sequon-algo | grep -Eq 'lzma-rs|quick-xml|sequon-io'; then
+            echo "error: sequon-algo gained a parser dependency" >&2
+            exit 1
+          fi
+
+          # No third-party domain parser may appear in the lockfile.
+          if grep -Eq 'name = "(gb-io|sgffp|biopython|teselagen|bio-parsers)"' Cargo.lock; then
+            echo "error: a banned third-party domain parser is in Cargo.lock" >&2
+            exit 1
+          fi
+
+  wasm:
+    name: wasm32 model check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - name: Check sequon-model for wasm32
+        run: cargo check -p sequon-model --target wasm32-unknown-unknown
+
+  deny:
+    name: cargo deny (licences, bans, advisories)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: EmbarkStudios/cargo-deny-action@v2
+        with:
+          command: check
+          arguments: --locked
+
+  fuzz:
+    name: fuzz (nightly, allowed to fail)
+    if: github.event_name == 'schedule'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+      - uses: Swatinem/rust-cache@v2
+      - name: Install cargo-fuzz
+        run: cargo install cargo-fuzz --locked
+      - name: genbank (60 s)
+        working-directory: fuzz
+        run: cargo +nightly fuzz run genbank -- -max_total_time=60
+      - name: dna (60 s)
+        working-directory: fuzz
+        run: cargo +nightly fuzz run dna -- -max_total_time=60
+      - name: location (60 s)
+        working-directory: fuzz
+        run: cargo +nightly fuzz run location -- -max_total_time=60

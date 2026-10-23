@@ -1,0 +1,14 @@
+LOCUS       SYN001                    60 bp    DNA       linear SYN 01-JAN-2000
+DEFINITION  minimal synthetic record.
+ACCESSION   SYN001
+VERSION     SYN001.1
+FEATURES             Location/Qualifiers
+     source          1..60
+                     /organism="synthetic construct"
+                     /mol_type="other DNA"
+     CDS             1..60
+                     /gene="synA"
+                     /product="synthetic protein"
+ORIGIN
+        1 ATGTTCCATC CGAGGAACCA AGTACAGAGG CTTAATCAAA ACGCTGGGGA CAGCAAAGTG
+//

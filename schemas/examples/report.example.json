@@ -1,0 +1,60 @@
+{
+  "schema": "sequon/import-report/1",
+  "source_format": "snapgene-dna",
+  "source_digest": "sha256:c9c2d1f4e9b804fb20aa08da1f7698b7e177b5b994c9c1989cc247042a34537c",
+  "source_bytes": 14866,
+  "parser": {
+    "kind": "parser",
+    "name": "sequon-io",
+    "version": "0.1.0"
+  },
+  "export_version": 17,
+  "codes_version": "2026-10-21/1",
+  "records": [
+    {
+      "index": 0,
+      "name": "SYN-PLASMID-A",
+      "kind": "dna",
+      "length": 2686,
+      "sequence_digest": "sha256:4bf8a74a7829c791c5a9d249980ef36c4cf7e59f7eb72cd1fd1c1ff14403111f",
+      "canonical_digest": "sha256:b1f1ab671da8e5ddb5c41c6d635eb55961015833ed6639c1058b5dcbb47a83eb"
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "DNA_HISTORY_PRESERVED_RAW",
+      "severity": "info",
+      "message": "history tree kept as raw bytes; not mapped",
+      "position": {
+        "kind": "snapgene",
+        "offset": 2715,
+        "packet_type": 7,
+        "packet_index": 2
+      },
+      "record_index": 0
+    }
+  ],
+  "dropped": [
+    {
+      "what": "trace_container",
+      "reason": "size_limit",
+      "record_index": 0,
+      "packet_type": 16,
+      "offset": 2797,
+      "length": 12000,
+      "digest": "sha256:599540dccb8f7aad9627ed2cf99e0f9d0e5afa9b2a0cdb663b6e78fa833bdf4d"
+    }
+  ],
+  "preserved": [
+    {
+      "what": "unknown_packet",
+      "encoding": "base64",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+Pw==",
+      "packet_type": 42,
+      "offset": 14802,
+      "length": 64,
+      "digest": "sha256:fdeab9acf3710362bd2658cdc9a29e8f9c757fcf9811603a8c447cd1d9151108",
+      "record_index": 0
+    }
+  ]
+}

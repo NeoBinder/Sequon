@@ -1,0 +1,8 @@
+LOCUS       SYN161                    60 bp    DNA   
+DEFINITION  missing topology.
+FEATURES             Location/Qualifiers
+     CDS             1..60
+                     /gene="notopo"
+ORIGIN
+        1 ATGTTCCATC CGAGGAACCA AGTACAGAGG CTTAATCAAA ACGCTGGGGA CAGCAAAGTG
+//

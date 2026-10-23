@@ -1,0 +1,41 @@
+[package]
+name = "sequon-fuzz"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+# This crate is intentionally its own workspace and is not a member of the
+# repository workspace. It builds only with cargo-fuzz on a nightly toolchain,
+# so the normal stable `cargo test` and `cargo clippy` gates never see it.
+[workspace]
+members = ["."]
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+sequon-io = { path = "../crates/sequon-io", features = ["genbank", "snapgene"] }
+sequon-model = { path = "../crates/sequon-model" }
+sequon-algo = { path = "../crates/sequon-algo" }
+
+[[bin]]
+name = "genbank"
+path = "fuzz_targets/genbank.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "dna"
+path = "fuzz_targets/dna.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "location"
+path = "fuzz_targets/location.rs"
+test = false
+doc = false
+bench = false

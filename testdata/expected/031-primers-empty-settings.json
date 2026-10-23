@@ -1,0 +1,87 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": null,
+  "topology": "linear",
+  "name": "sequon-fixture-031",
+  "description": null,
+  "length": 153,
+  "sequence": "ACGTACGTGGCCTTAAGGCCTTCGAAACGTACGTTAGCATCGATCGTACGATCGATCGTAGCTAGCTAGCATCGATCGTAGCTAGCTAGCATCGATCGTAGCTAGCTAGCGATCGATCGATCGTAGCTAGCTAGCATCGATCGTAGCTAGCTA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:a9d9ad4d2364e37ba5dd01f1871ed2a49f0f6a09d6853940a7ed3dfc637ab3bc",
+    "canonical": "sha256:a9d9ad4d2364e37ba5dd01f1871ed2a49f0f6a09d6853940a7ed3dfc637ab3bc"
+  },
+  "features": [],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "snapgene-dna",
+    "source_digest": "sha256:1ace387ca85e6556778c4e5a194cbbe68e98986f3e5edb214c92597c7b9424df",
+    "source_bytes": 721,
+    "export_version": 15
+  },
+  "extras": {
+    "snapgene": {
+      "dna_flags": 0,
+      "notes": [
+        {
+          "attributes": [],
+          "name": "UUID",
+          "value": "00000000-0000-4000-8000-000000000001"
+        },
+        {
+          "attributes": [],
+          "name": "Type",
+          "value": "Synthetic"
+        },
+        {
+          "attributes": [],
+          "name": "ConfirmedExperimentally",
+          "value": "0"
+        },
+        {
+          "attributes": [],
+          "name": "CustomMapLabel",
+          "value": "sequon-fixture-031"
+        },
+        {
+          "attributes": [],
+          "name": "UseCustomMapLabel",
+          "value": "1"
+        },
+        {
+          "attributes": [],
+          "name": "Organism",
+          "value": "synthetic construct"
+        }
+      ],
+      "primer_settings": [
+        {
+          "name": "minContinuousMatchLen",
+          "value": "10"
+        },
+        {
+          "name": "allowMismatch",
+          "value": "1"
+        },
+        {
+          "name": "minMeltingTemperature",
+          "value": "40"
+        },
+        {
+          "name": "showAdditionalFivePrimeMatches",
+          "value": "1"
+        },
+        {
+          "name": "minimumFivePrimeAnnealing",
+          "value": "15"
+        }
+      ],
+      "primers": []
+    }
+  }
+}

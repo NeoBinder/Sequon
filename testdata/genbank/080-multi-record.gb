@@ -1,0 +1,16 @@
+LOCUS       SYN080A                   60 bp    DNA       linear SYN 01-JAN-2000
+DEFINITION  first record.
+FEATURES             Location/Qualifiers
+     CDS             1..60
+                     /gene="first"
+ORIGIN
+        1 ATGTTCCATC CGAGGAACCA AGTACAGAGG CTTAATCAAA ACGCTGGGGA CAGCAAAGTG
+//
+LOCUS       SYN080B                   60 bp    DNA       linear SYN 01-JAN-2000
+DEFINITION  second record.
+FEATURES             Location/Qualifiers
+     misc_feature    1..10
+                     /note="second"
+ORIGIN
+        1 ATGTTCCATC CGAGGAACCA AGTACAGAGG CTTAATCAAA ACGCTGGGGA CAGCAAAGTG
+//

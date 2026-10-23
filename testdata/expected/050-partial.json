@@ -1,0 +1,85 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": "ds-DNA",
+  "topology": "linear",
+  "name": "SYN050",
+  "description": "partial boundaries.",
+  "length": 120,
+  "sequence": "ATGTTCCATCCGAGGAACCAAGTACAGAGGCTTAATCAAAACGCTGGGGACAGCAAAGTGATTTCATGTCACCGACAAATTAGAACTCCGAGGATCAAAAGTGATTTCATGAACATTTAA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:5993514390f2cdff65801f9325dfa707472d67d2c50b22b0aa5f2437ee25d65e",
+    "canonical": "sha256:5993514390f2cdff65801f9325dfa707472d67d2c50b22b0aa5f2437ee25d65e"
+  },
+  "features": [
+    {
+      "key": "CDS",
+      "so_term": "SO:0000316",
+      "name": "synC",
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 60,
+            "start_partial": true,
+            "end_partial": true
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "gene",
+          "value": "synC"
+        }
+      ]
+    },
+    {
+      "key": "misc_feature",
+      "so_term": "SO:0000110",
+      "name": null,
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 109,
+            "end": 110,
+            "start_partial": false,
+            "end_partial": true
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "note",
+          "value": "single partial base"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "genbank",
+    "source_digest": "sha256:40bc2de4c87274c6a71ebe37a3d0feb139c0a698a0ecb9d511585eae0fb40a58",
+    "source_bytes": 453,
+    "export_version": null
+  },
+  "extras": {
+    "genbank": {
+      "division": "SYN",
+      "header": [
+        {
+          "key": "DEFINITION",
+          "value": "partial boundaries."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+LOCUS       SYN010                   300 bp    DNA     circular SYN 01-JAN-2000
+DEFINITION  circular synthetic plasmid.
+ACCESSION   SYN010
+VERSION     SYN010.1
+FEATURES             Location/Qualifiers
+     source          1..300
+                     /organism="synthetic construct"
+     CDS             10..100
+                     /gene="repA"
+     promoter        1..20
+                     /note="synthetic promoter"
+     rep_origin      200..250
+                     /note="synthetic origin"
+ORIGIN
+        1 TATTGCTTTA CAAAATTAAG GCCCAAAAGC GAGGACAGTA ACTATTCACG GAAGCGGGCA
+       61 GGAGACGCCA ATCCCCTGCG TCTGTACTCG GCGTAGTGCC GACGGACCAG AACAATGTGG
+      121 GGAAGATCTG CAGTAAACAA CCAGTTCAGT CACTTCCTTC GACTGATCTG TACGTGCAGA
+      181 CATGGACCAA TCGATGATGG ACTCGGATCG TGTCGTAAGA CGAGCGTTAT GGTCGACCAC
+      241 AAAGTGTGTA ACGGCTTTCC GGTCTGTCCG ATAAATCATC TATACAAGGA TCAATCTGGA
+//

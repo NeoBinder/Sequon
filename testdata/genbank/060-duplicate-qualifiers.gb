@@ -1,0 +1,14 @@
+LOCUS       SYN060                   120 bp    DNA       linear SYN 01-JAN-2000
+DEFINITION  qualifier duplication.
+FEATURES             Location/Qualifiers
+     source          1..120
+                     /organism="synthetic construct"
+                     /note="first part of the note
+                     second part"
+     misc_feature    1..10
+                     /db_xref="A:1"
+                     /db_xref="B:2"
+ORIGIN
+        1 ATGTTCCATC CGAGGAACCA AGTACAGAGG CTTAATCAAA ACGCTGGGGA CAGCAAAGTG
+       61 ATTTCATGTC ACCGACAAAT TAGAACTCCG AGGATCAAAA GTGATTTCAT GAACATTTAA
+//

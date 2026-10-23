@@ -1,0 +1,74 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": "ds-DNA",
+  "topology": "linear",
+  "name": "SYN030",
+  "description": "order location.",
+  "length": 120,
+  "sequence": "ATGTTCCATCCGAGGAACCAAGTACAGAGGCTTAATCAAAACGCTGGGGACAGCAAAGTGATTTCATGTCACCGACAAATTAGAACTCCGAGGATCAAAAGTGATTTCATGAACATTTAA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:5993514390f2cdff65801f9325dfa707472d67d2c50b22b0aa5f2437ee25d65e",
+    "canonical": "sha256:5993514390f2cdff65801f9325dfa707472d67d2c50b22b0aa5f2437ee25d65e"
+  },
+  "features": [
+    {
+      "key": "misc_feature",
+      "so_term": "SO:0000110",
+      "name": null,
+      "location": {
+        "operator": "order",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 10,
+            "start_partial": false,
+            "end_partial": false
+          },
+          {
+            "start": 19,
+            "end": 30,
+            "start_partial": false,
+            "end_partial": false
+          },
+          {
+            "start": 0,
+            "end": 10,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "note",
+          "value": "ordered segments"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "genbank",
+    "source_digest": "sha256:5f4df70b7f31e73436aa17895708f58f88c7050b7ab46aca6dca6da425608a31",
+    "source_bytes": 404,
+    "export_version": null
+  },
+  "extras": {
+    "genbank": {
+      "division": "SYN",
+      "header": [
+        {
+          "key": "DEFINITION",
+          "value": "order location."
+        }
+      ]
+    }
+  }
+}

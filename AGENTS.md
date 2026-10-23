@@ -19,12 +19,19 @@ library.
 
 ## Current milestone
 
-Deciding the canonical model is the first task in this repository. The schema is
-**not decided**. Until `docs/design/canonical-model.md` is accepted:
+The canonical model, schemas and diagnostics are accepted
+(`docs/design/canonical-model.md`, M0). The schemas in `schemas/` are their
+machine-readable copy; change the accepted document and the schema in the same
+commit.
 
-- do not build adapters against an assumed shape,
+Milestones M1-M4 are implemented: the GenBank reader and writer are in
+`sequon-io` (default feature), and the SnapGene `.dna` reader is behind the
+`snapgene` feature (import-only). M5 conformance, CI and fuzzing are landing.
+
 - do not add a second representation "for convenience",
-- keep examples in the design document, not in code.
+- parse warnings, dropped data and preserved blocks go to the import report, never into a record,
+- a record is valid for use only after `Record::validate()` and `sequon_algo::verify_digests()`,
+- keep examples in the design documents, `schemas/examples/` or a crate's `examples/`.
 
 The document is the source of truth. When the model changes, change the document
 in the same commit.
@@ -45,9 +52,13 @@ Never silently drop qualifiers, features, segments, or provenance.
 - Stable Rust, edition 2021. `cargo fmt --all -- --check`,
   `cargo clippy --all-targets --all-features -- -D warnings` and
   `cargo test --all-features` must pass before landing.
-- `sequon-model` depends on `serde` only. Format-specific dependencies belong in
-  `sequon-io` behind optional features, and `sequon-algo` must not pull in a
-  parser.
+- `sequon-model` depends on `serde` only; `sequon-algo` must not pull in a
+  parser. Sequence format IO is implemented and maintained in this repository:
+  GenBank in `sequon-io`; SnapGene `.dna` in its own optional crate or feature,
+  import-only. Third-party domain format parsers are format reference and
+  development-time comparison only, never a crate or runtime dependency. A
+  general-purpose codec or markup tokenizer (for example LZMA or XML) is the
+  exception, named in the design note.
 - Parsers accept untrusted input: no panics on malformed bytes, no unbounded
   allocation, typed errors that name the field and byte offset.
 - Determinism: the same input and the same crate version produce byte-identical
@@ -65,8 +76,8 @@ The workspace declares MIT. Confirm the final license before the first public
 release; dual licensing is a one-line change in `Cargo.toml`.
 
 SnapGene `.dna` files are a reverse-engineered binary format with no public
-specification, and they carry blocks GenBank cannot represent. If support is
-added:
+specification, and they carry blocks GenBank cannot represent. When support
+lands it is implemented here:
 
 - it lives in its own optional crate or feature under `sequon-io`,
 - it is import-only unless a legal review accepts writing,

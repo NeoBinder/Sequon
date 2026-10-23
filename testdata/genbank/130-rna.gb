@@ -1,0 +1,6 @@
+LOCUS       SYN130                    60 bp    mRNA      linear SYN 01-JAN-2000
+DEFINITION  RNA record.
+FEATURES             Location/Qualifiers
+ORIGIN
+        1 ATGTTCCATC CGAGGAACCA AGTACAGAGG CTTAATCAAA ACGCTGGGGA CAGCAAAGTG
+//

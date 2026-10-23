@@ -1,0 +1,101 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": "ds-DNA",
+  "topology": "linear",
+  "name": "SYN001",
+  "description": "minimal synthetic record.",
+  "length": 60,
+  "sequence": "ATGTTCCATCCGAGGAACCAAGTACAGAGGCTTAATCAAAACGCTGGGGACAGCAAAGTG",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:2f5036711a1eb300e38da10a600d554717682b566dd3824e3b7101262f644766",
+    "canonical": "sha256:2f5036711a1eb300e38da10a600d554717682b566dd3824e3b7101262f644766"
+  },
+  "features": [
+    {
+      "key": "source",
+      "so_term": "SO:0002206",
+      "name": null,
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 60,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "organism",
+          "value": "synthetic construct"
+        },
+        {
+          "key": "mol_type",
+          "value": "other DNA"
+        }
+      ]
+    },
+    {
+      "key": "CDS",
+      "so_term": "SO:0000316",
+      "name": "synA",
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 60,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "gene",
+          "value": "synA"
+        },
+        {
+          "key": "product",
+          "value": "synthetic protein"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "genbank",
+    "source_digest": "sha256:091e042ff261d6d279ee3511be52f6dfe5c4ad05ec430bfbfe400d0522d1f13c",
+    "source_bytes": 519,
+    "export_version": null
+  },
+  "extras": {
+    "genbank": {
+      "division": "SYN",
+      "header": [
+        {
+          "key": "DEFINITION",
+          "value": "minimal synthetic record."
+        },
+        {
+          "key": "ACCESSION",
+          "value": "SYN001"
+        },
+        {
+          "key": "VERSION",
+          "value": "SYN001.1"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+LOCUS       SYN162                   120 bp    ms-DNA    linear SYN 01-JAN-2000
+DEFINITION  unknown molecule subtype.
+FEATURES             Location/Qualifiers
+     misc_feature    1..10
+                     /note="other subtype"
+ORIGIN
+        1 ATGTTCCATC CGAGGAACCA AGTACAGAGG CTTAATCAAA ACGCTGGGGA CAGCAAAGTG
+       61 ATTTCATGTC ACCGACAAAT TAGAACTCCG AGGATCAAAA GTGATTTCAT GAACATTTAA
+//

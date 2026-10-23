@@ -1,0 +1,161 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": "ds-DNA",
+  "topology": "circular",
+  "name": "SYN-PLASMID-A",
+  "description": "Synthetic 2686 bp example plasmid, not a real sequence.",
+  "length": 2686,
+  "sequence": "ACTTAATGAGGAGTTCGTATTCCAATGAATGGATAGCGAACCGCGACCACCCTCGGTCGAGTTCGTCAGCAAGAACCATAACAGGAGCATAGAGTAGAATCAACTATTTGTCCCGGGAGAATTTGTCCGCAACCAGGTCCATTCCAAGATAGTGTCGACCTCGTAAAAACCGGGGCTGTAAACACGGTCCAGGGCACTGATAGCCATTGATTGTCCATACACTGCTTAGACACAGTTTGGGTAAAGTTTCGNACGGGAGGGCGCAGAGCGTACGCGCGCCGAGTGGTATGATCCGCGAACGCAGCACACCTGGGTTCAATCGCCCAGACCCGGGCGATTGGGCCCGTAAACCGTGCGGTTGGTTTAGGTACGTGCCACTATCTCATAACTTCGCGCATGCACACGCGTTCAATCCATCCGCATAGCGCCCCATATTATTAGGCGGCAGTTCGCTATCGAGAGGTGGACCTCTTGGGTAGCACGTAATTTGGGAGTCCTGTTGRGCTAGGTTGTAAACAGTTGTAGCTAGCTAATAATGCCACGCGAAACCGTGCACAGCCTTACAGGTGCATGTCAGTAACCAACTCTCGTAACTCCGGGCGAAAGGTGGTACATAGTCAACACTATGGCGAAATGGATTCTATAGGTCGGCCGGATGCTCTTACGACCCCGTTTTACGAACGGTCTGTGCGTCGCGTAATGGAACCTGAGAAGCCCTTATTCGGCTTCTTGTCAAATGATAGCCCTGACTGGYTAAGGAAAGCTGAGCGACTTATTGAACCCCGAGGGATTTGCCGCTCGGATACCATCTTCAACCGTCCTGCGCCTGTGTTGGATCGCCCCTAATCCGAGCCCCGGCAATCTAAAACCACTAAGCCCGAACAAAGTCTAGACCTCGAGTGGTCTGCGTACGCCCAATTCGAAGGAGCACTGGGACCGATATAGTGCCGAATCACTAGGCTTTCTTTATAGTAACGACTACAACTCGCTTTCAAGCCTATTTASTGACATGTGACCTCTAAGAATCTATCACTGGAGCATTCTGATTAATACATATCTTGAAGCACGTACTCAACGATATAGAACGTAGGAATGGTCGAATGTGTTTACTGAAATTGGTTCCGGCATTTGCGCACGAACGGCAAGCTCTCTATCCCCGCCGTCGGTTTGCCGTTGCCAAGTGGTTTTGCCGTATGTAAGCAGGTGTGATTAGCCAGGTCATAGAATGATAACTCCTTTCTAAACGATGCAGGCGWCCGTACAACATCTCCTCCCACCAGGTGGTAGCAAGAAACAATTTCATTAAATGGCTTTGACTCACATAACCAAGGCAGTACCGTTACACCAATACCAGCAGCATGCACCAATACGAATCTGCTCGAAAACGATTTCATTGCATCACGAAGTTACGCGGTCTTATTGAAGGCGACTGCTCTCAAAGAGTCCCCGACCTGTATATGATGCCTAGGTGAGGTCTTTGACATAGGACTGACGTGAAAGGGGATTKTAGTTAGGCAATGAGGTCGGCTCGGTCCTACGCTATAAAGGCATGTTGTGTGAAAGTGGGAATTTCCGGATTCGTAGAGTGAACCTCTGGACATAACGGGAGAAACATCAGAACAAGACGTACTCAATGTTAATCACCTCCTTGCCAGTCCGGCTAATAACTTCACAGATTCACCGTCTAGCGCTGACTTCAGCTTCTCTCATCACTACCACGCATTGTTGTATCCCGGAATGACAGACTCGAAAGAACTMCCCAGAGAACAGCTAATCGGACAGGGCCGACTCCGCAATCAGTAAATCTCCGGGGCGTATAACTACGGAGAAGACTCGCTCGAATCGCTCGGAGCGAAGGGTATAAATGATGGTAGGTCGGCCCTACTCGGTGTTGTTGGCGACCCATCTTTCCTCCTATCTGCTGCATAATGCTTACTTCCTTCGACATGTAATATTTTGATTAAATGCTCACACATGGTCGCTTTCTACGTTCAAACTTAAAGCGCTCBAGGTGTCTCTGCCACAGTTCATCGTAGTAGAGGAACCGTCTCCAGAGACGGACGACGCGTGAGAATAATATCGAACGCTTGCTGTGGAAGAGTCCCAAGAACGTCACTGACGTGATCTGGAGCACCTCTCGGAATTCTGTTAGCCATCGAACTCCACCCTAATGGGGCAACGAACTTGCGGTGACGAGCAAATCGCTTAGCTTACGGGTATGGTGGACTTCATTAGGTTCTTTCTATTGGACCTTTGTTGDCTTCGCTAAGCTACATCCATTGGCACCGACCCGAATCTCGTGGCGCCCGCTTTCGTCATAAATAACTTAAAGATGCCGCAGTGCCCCAGGACTCGAATCACTGGTGGGAATAAGTTGTCTGCAAAACGGTCCTTGACGATGGAACAAGCCCTCTATCTTTGTCTGCCGGATAGACTAGTAGATAGTGTGGCGGTGGAAAGTTTAGCGCTACAGATGACATATTTGGCAAACAGCGTACTATGGACGGAGTHAGGTTAACATATTTAGGTTAACTCTGCAGGCTCACTCTGTTTAGAAACGGGAGAGAATGATAGTTGGTAGCGGAAGGTTTGTTTAGCATGAGTGCGCAGAAATCAATTCTTCATTAGTCTGGGAGCTGCCATTTGCCTGAGACCTCTCCCTGGCTAGACTTGCGGTGCCGACGGA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:4bf8a74a7829c791c5a9d249980ef36c4cf7e59f7eb72cd1fd1c1ff14403111f",
+    "canonical": "sha256:b1f1ab671da8e5ddb5c41c6d635eb55961015833ed6639c1058b5dcbb47a83eb"
+  },
+  "features": [
+    {
+      "key": "source",
+      "so_term": "SO:0002206",
+      "name": null,
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 2686,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "organism",
+          "value": "synthetic construct"
+        },
+        {
+          "key": "mol_type",
+          "value": "other DNA"
+        },
+        {
+          "key": "note",
+          "value": "synthetic example, not a real sequence"
+        }
+      ]
+    },
+    {
+      "key": "CDS",
+      "so_term": "SO:0000316",
+      "name": "orfA",
+      "location": {
+        "operator": "span",
+        "strand": -1,
+        "segments": [
+          {
+            "start": 1628,
+            "end": 2417,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "gene",
+          "value": "orfA"
+        },
+        {
+          "key": "product",
+          "value": "synthetic ORF A"
+        },
+        {
+          "key": "db_xref",
+          "value": "ASAP:SYN-0000001"
+        },
+        {
+          "key": "db_xref",
+          "value": "ASAP:SYN-0000002"
+        },
+        {
+          "key": "note",
+          "value": "illustrative CDS; the sequence does not encode a biological product"
+        }
+      ]
+    },
+    {
+      "key": "misc_feature",
+      "so_term": "SO:0000110",
+      "name": null,
+      "location": {
+        "operator": "join",
+        "strand": -1,
+        "segments": [
+          {
+            "start": 2600,
+            "end": 2686,
+            "start_partial": false,
+            "end_partial": false
+          },
+          {
+            "start": 0,
+            "end": 100,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "note",
+          "value": "illustrative cross-origin junction; split into two segments at the origin"
+        },
+        {
+          "key": "pseudo",
+          "value": null
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "genbank",
+    "source_digest": "sha256:5fa8fc1487f531f8d3b6b0339d28bbeb68f744584483420e69a38f0aa4fdc520",
+    "source_bytes": 4488,
+    "export_version": null
+  },
+  "extras": {
+    "genbank": {
+      "header": [
+        {
+          "key": "DEFINITION",
+          "value": "Synthetic 2686 bp example plasmid, not a real sequence."
+        },
+        {
+          "key": "ACCESSION",
+          "value": "SYN00001"
+        },
+        {
+          "key": "VERSION",
+          "value": "SYN00001.1"
+        },
+        {
+          "key": "KEYWORDS",
+          "value": "."
+        },
+        {
+          "key": "SOURCE",
+          "value": "synthetic construct"
+        },
+        {
+          "key": "ORGANISM",
+          "value": "synthetic construct\nother sequences; artificial sequences; vectors."
+        }
+      ]
+    }
+  }
+}

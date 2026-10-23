@@ -1,0 +1,7 @@
+LOCUS       SYN120                    60 bp    DNA       linear SYN 01-JAN-2000
+DEFINITION  unterminated record.
+FEATURES             Location/Qualifiers
+     CDS             1..60
+                     /gene="trunc"
+ORIGIN
+        1 ATGTTCCATC CGAGGAACCA AGTACAGAGG CTTAATCAAA ACGCTGGGGA CAGCAAAGTG

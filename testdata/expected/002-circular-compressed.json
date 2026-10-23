@@ -1,0 +1,64 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": null,
+  "topology": "circular",
+  "name": "sequon-fixture-002",
+  "description": null,
+  "length": 64,
+  "sequence": "GATCCTAGAGCTTCGAGATCCTAGAGCTTCGAGATCCTAGAGCTTCGAGATCCTAGAGCTTCGA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:1e0d4fbd28aa4aeba4fa649726d6823388e7ae101b0d88c41bce824f11b3b04e",
+    "canonical": "sha256:1f81101eeee9092c1f3150e46c43beded4db91173e3bb3c2c3b7d5c747adc8e2"
+  },
+  "features": [],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "snapgene-dna",
+    "source_digest": "sha256:3f87aff8cfb0ace9c0709a887dbd1f759557fd6016dffcfd4a4699817c69be33",
+    "source_bytes": 361,
+    "export_version": 15
+  },
+  "extras": {
+    "snapgene": {
+      "dna_flags": 1,
+      "notes": [
+        {
+          "attributes": [],
+          "name": "UUID",
+          "value": "00000000-0000-4000-8000-000000000001"
+        },
+        {
+          "attributes": [],
+          "name": "Type",
+          "value": "Synthetic"
+        },
+        {
+          "attributes": [],
+          "name": "ConfirmedExperimentally",
+          "value": "0"
+        },
+        {
+          "attributes": [],
+          "name": "CustomMapLabel",
+          "value": "sequon-fixture-002"
+        },
+        {
+          "attributes": [],
+          "name": "UseCustomMapLabel",
+          "value": "1"
+        },
+        {
+          "attributes": [],
+          "name": "Organism",
+          "value": "synthetic construct"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": null,
+  "topology": "linear",
+  "name": "sequon-fixture-100",
+  "description": "Synthetic naïve construct - café",
+  "length": 64,
+  "sequence": "GATCCTAGAGCTTCGAGATCCTAGAGCTTCGAGATCCTAGAGCTTCGAGATCCTAGAGCTTCGA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:1e0d4fbd28aa4aeba4fa649726d6823388e7ae101b0d88c41bce824f11b3b04e",
+    "canonical": "sha256:1e0d4fbd28aa4aeba4fa649726d6823388e7ae101b0d88c41bce824f11b3b04e"
+  },
+  "features": [],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "snapgene-dna",
+    "source_digest": "sha256:7934ea972f454038265dabe326337a1e7462552da3eb6f278af8b3a9f59dca1e",
+    "source_bytes": 483,
+    "export_version": 15
+  },
+  "extras": {
+    "snapgene": {
+      "dna_flags": 0,
+      "notes": [
+        {
+          "attributes": [],
+          "name": "UUID",
+          "value": "00000000-0000-4000-8000-000000000100"
+        },
+        {
+          "attributes": [],
+          "name": "Type",
+          "value": "Synthetic"
+        },
+        {
+          "attributes": [],
+          "name": "CustomMapLabel",
+          "value": "sequon-fixture-100"
+        },
+        {
+          "attributes": [],
+          "name": "UseCustomMapLabel",
+          "value": "1"
+        },
+        {
+          "attributes": [],
+          "name": "Description",
+          "value": "Synthetic naïve construct - café"
+        },
+        {
+          "attributes": [],
+          "name": "Organism",
+          "value": "Escherichia coli synthetic"
+        },
+        {
+          "attributes": [],
+          "name": "Comments",
+          "value": "UTF-8: naïve café — synthetic data"
+        }
+      ]
+    }
+  }
+}

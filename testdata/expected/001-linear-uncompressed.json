@@ -1,0 +1,102 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": null,
+  "topology": "linear",
+  "name": "sequon-fixture-001",
+  "description": null,
+  "length": 64,
+  "sequence": "GATCCTAGAGCTTCGAGATCCTAGAGCTTCGAGATCCTAGAGCTTCGAGATCCTAGAGCTTCGA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:1e0d4fbd28aa4aeba4fa649726d6823388e7ae101b0d88c41bce824f11b3b04e",
+    "canonical": "sha256:1e0d4fbd28aa4aeba4fa649726d6823388e7ae101b0d88c41bce824f11b3b04e"
+  },
+  "features": [
+    {
+      "key": "misc_feature",
+      "so_term": "SO:0000110",
+      "name": "synthetic site",
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 8,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": []
+    }
+  ],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "snapgene-dna",
+    "source_digest": "sha256:4b57e17934ab95508bbc3d37d202a1e2607fbbf1c97b0d69cab6d0e32ffa068f",
+    "source_bytes": 578,
+    "export_version": 15
+  },
+  "extras": {
+    "snapgene": {
+      "dna_flags": 0,
+      "features": [
+        {
+          "attributes": [
+            {
+              "name": "recentID",
+              "value": "0"
+            }
+          ],
+          "feature_index": 0,
+          "key": "misc_feature",
+          "qualifiers": [],
+          "segments": [
+            {
+              "attributes": [],
+              "segment_index": 0
+            }
+          ]
+        }
+      ],
+      "notes": [
+        {
+          "attributes": [],
+          "name": "UUID",
+          "value": "00000000-0000-4000-8000-000000000001"
+        },
+        {
+          "attributes": [],
+          "name": "Type",
+          "value": "Synthetic"
+        },
+        {
+          "attributes": [],
+          "name": "ConfirmedExperimentally",
+          "value": "0"
+        },
+        {
+          "attributes": [],
+          "name": "CustomMapLabel",
+          "value": "sequon-fixture-001"
+        },
+        {
+          "attributes": [],
+          "name": "UseCustomMapLabel",
+          "value": "1"
+        },
+        {
+          "attributes": [],
+          "name": "Organism",
+          "value": "synthetic construct"
+        }
+      ]
+    }
+  }
+}

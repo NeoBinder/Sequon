@@ -1,0 +1,60 @@
+# Dependency policy for Sequon.
+#
+# This file is the machine-readable copy of the dependency rules in
+# AGENTS.md and docs/design/snapgene-dna.md. Its schema matches cargo-deny
+# 0.20 (the "deny" crate list and "yanked" advisory key); re-check the keys when
+# the cargo-deny version pinned by CI changes:
+#
+# - GenBank and SnapGene are implemented in this repository; third-party
+#   domain parsers are never a crate or runtime dependency;
+# - general-purpose codecs (LZMA, XML tokenization) are the only exception and
+#   live behind the snapgene feature;
+# - only permissive licences are accepted. The allowlist below was derived from
+#   the resolved Cargo.lock inventory, not from guesses.
+
+[graph]
+# Check every target dependency in the lockfile, including target-specific
+# crates.
+all-features = true
+
+[advisories]
+version = 2
+yanked = "warn"
+ignore = []
+
+[licenses]
+# Every licence that actually appears in the resolved tree. The project itself
+# is MIT (Q10: dual licensing was considered and is not adopted).
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Unlicense",
+    "Unicode-3.0",
+]
+confidence-threshold = 0.9
+
+# No crate-specific licence exceptions are needed: the dependency tree is fully
+# permissive. JSON Schema validation runs in Python (tools/validate_contract.py)
+# instead of a Rust crate, which removed the jsonschema -> getrandom -> r-efi
+# LGPL chain from Cargo.lock.
+
+[bans]
+multiple-versions = "warn"
+# Workspace-inherited path dependencies legitimately carry no version
+# requirement (crates.io resolves them at publish time). The conformance
+# dependency test asserts which crates may be reached this way, so this is a
+# warning rather than a hard ban.
+wildcards = "warn"
+allow-wildcard-paths = true
+highlight = "all"
+
+# Third-party domain parsers are format reference only. None may be added as a
+# crate or runtime dependency; the list mirrors the gate in plan section 7.8 and
+# the conformance dependency test.
+deny = [
+    { name = "gb-io", reason = "third-party GenBank parser; Sequon implements GenBank itself" },
+    { name = "sgffp", reason = "third-party SnapGene parser; Sequon implements .dna itself" },
+    { name = "biopython", reason = "third-party sequence parser; reference only" },
+    { name = "bio-parsers", reason = "third-party sequence parser; reference only" },
+    { name = "teselagen", reason = "third-party sequence parser tooling; reference only" },
+]

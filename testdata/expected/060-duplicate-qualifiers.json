@@ -1,0 +1,93 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": "ds-DNA",
+  "topology": "linear",
+  "name": "SYN060",
+  "description": "qualifier duplication.",
+  "length": 120,
+  "sequence": "ATGTTCCATCCGAGGAACCAAGTACAGAGGCTTAATCAAAACGCTGGGGACAGCAAAGTGATTTCATGTCACCGACAAATTAGAACTCCGAGGATCAAAAGTGATTTCATGAACATTTAA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:5993514390f2cdff65801f9325dfa707472d67d2c50b22b0aa5f2437ee25d65e",
+    "canonical": "sha256:5993514390f2cdff65801f9325dfa707472d67d2c50b22b0aa5f2437ee25d65e"
+  },
+  "features": [
+    {
+      "key": "source",
+      "so_term": "SO:0002206",
+      "name": null,
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 120,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "organism",
+          "value": "synthetic construct"
+        },
+        {
+          "key": "note",
+          "value": "first part of the note second part"
+        }
+      ]
+    },
+    {
+      "key": "misc_feature",
+      "so_term": "SO:0000110",
+      "name": null,
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 10,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "db_xref",
+          "value": "A:1"
+        },
+        {
+          "key": "db_xref",
+          "value": "B:2"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "genbank",
+    "source_digest": "sha256:967cab885c4c6f2445136b69d66f85409ec371a4b0fa1aa71dd1979884cb4020",
+    "source_bytes": 583,
+    "export_version": null
+  },
+  "extras": {
+    "genbank": {
+      "division": "SYN",
+      "header": [
+        {
+          "key": "DEFINITION",
+          "value": "qualifier duplication."
+        }
+      ]
+    }
+  }
+}

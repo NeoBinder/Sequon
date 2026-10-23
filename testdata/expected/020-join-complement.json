@@ -1,0 +1,68 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": "ds-DNA",
+  "topology": "linear",
+  "name": "SYN020",
+  "description": "join complement location.",
+  "length": 120,
+  "sequence": "ATGTTCCATCCGAGGAACCAAGTACAGAGGCTTAATCAAAACGCTGGGGACAGCAAAGTGATTTCATGTCACCGACAAATTAGAACTCCGAGGATCAAAAGTGATTTCATGAACATTTAA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:5993514390f2cdff65801f9325dfa707472d67d2c50b22b0aa5f2437ee25d65e",
+    "canonical": "sha256:5993514390f2cdff65801f9325dfa707472d67d2c50b22b0aa5f2437ee25d65e"
+  },
+  "features": [
+    {
+      "key": "CDS",
+      "so_term": "SO:0000316",
+      "name": "synB",
+      "location": {
+        "operator": "join",
+        "strand": -1,
+        "segments": [
+          {
+            "start": 9,
+            "end": 30,
+            "start_partial": false,
+            "end_partial": false
+          },
+          {
+            "start": 49,
+            "end": 70,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "gene",
+          "value": "synB"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "genbank",
+    "source_digest": "sha256:9e1f126cfd11ce92089899c4932303e329d3978442b4d679f18237273ae6e851",
+    "source_bytes": 408,
+    "export_version": null
+  },
+  "extras": {
+    "genbank": {
+      "division": "SYN",
+      "header": [
+        {
+          "key": "DEFINITION",
+          "value": "join complement location."
+        }
+      ]
+    }
+  }
+}

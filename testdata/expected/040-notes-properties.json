@@ -1,0 +1,111 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": null,
+  "topology": "linear",
+  "name": "sequon-fixture-040",
+  "description": "synthetic vector description",
+  "length": 153,
+  "sequence": "ACGTACGTGGCCTTAAGGCCTTCGAAACGTACGTTAGCATCGATCGTACGATCGATCGTAGCTAGCTAGCATCGATCGTAGCTAGCTAGCATCGATCGTAGCTAGCTAGCGATCGATCGATCGTAGCTAGCTAGCATCGATCGTAGCTAGCTA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:a9d9ad4d2364e37ba5dd01f1871ed2a49f0f6a09d6853940a7ed3dfc637ab3bc",
+    "canonical": "sha256:a9d9ad4d2364e37ba5dd01f1871ed2a49f0f6a09d6853940a7ed3dfc637ab3bc"
+  },
+  "features": [],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "snapgene-dna",
+    "source_digest": "sha256:f3c325732f80e1ffe66741534693e39cb7e5d0b0208b54635da2a8847de1f280",
+    "source_bytes": 1100,
+    "export_version": 15
+  },
+  "extras": {
+    "snapgene": {
+      "dna_flags": 0,
+      "notes": [
+        {
+          "attributes": [],
+          "name": "UUID",
+          "value": "00000000-0000-4000-8000-000000000001"
+        },
+        {
+          "attributes": [],
+          "name": "Type",
+          "value": "Synthetic"
+        },
+        {
+          "attributes": [],
+          "name": "ConfirmedExperimentally",
+          "value": "0"
+        },
+        {
+          "attributes": [],
+          "name": "CustomMapLabel",
+          "value": "sequon-fixture-040"
+        },
+        {
+          "attributes": [],
+          "name": "UseCustomMapLabel",
+          "value": "1"
+        },
+        {
+          "attributes": [],
+          "name": "Organism",
+          "value": "synthetic construct"
+        },
+        {
+          "attributes": [],
+          "name": "Description",
+          "value": "<html><body>synthetic vector description</body></html>"
+        },
+        {
+          "attributes": [],
+          "name": "CreatedBy",
+          "value": "Sequon conformance builder"
+        },
+        {
+          "attributes": [
+            {
+              "name": "UTC",
+              "value": "0:0:0"
+            }
+          ],
+          "name": "Created",
+          "value": "2026.1.1"
+        },
+        {
+          "attributes": [],
+          "name": "Comments",
+          "value": "<html><body></body></html>"
+        }
+      ],
+      "properties": [
+        {
+          "attributes": [],
+          "name": "UpstreamStickiness",
+          "value": "0"
+        },
+        {
+          "attributes": [],
+          "name": "DownstreamStickiness",
+          "value": "0"
+        },
+        {
+          "attributes": [],
+          "name": "UpstreamModification",
+          "value": "FivePrimePhosphorylated"
+        },
+        {
+          "attributes": [],
+          "name": "DownstreamModification",
+          "value": "FivePrimePhosphorylated"
+        }
+      ]
+    }
+  }
+}

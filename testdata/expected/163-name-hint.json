@@ -1,0 +1,62 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": "ds-DNA",
+  "topology": "linear",
+  "name": "HINT163",
+  "description": "name hint record.",
+  "length": 60,
+  "sequence": "ATGTTCCATCCGAGGAACCAAGTACAGAGGCTTAATCAAAACGCTGGGGACAGCAAAGTG",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:2f5036711a1eb300e38da10a600d554717682b566dd3824e3b7101262f644766",
+    "canonical": "sha256:2f5036711a1eb300e38da10a600d554717682b566dd3824e3b7101262f644766"
+  },
+  "features": [
+    {
+      "key": "CDS",
+      "so_term": "SO:0000316",
+      "name": "hinted",
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 60,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "gene",
+          "value": "hinted"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "genbank",
+    "source_digest": "sha256:9130a0f6c042fe97113cd7b8e3419d967a4ef421e0e48170c2d02ad9e1cf0086",
+    "source_bytes": 300,
+    "export_version": null
+  },
+  "extras": {
+    "genbank": {
+      "division": "SYN",
+      "header": [
+        {
+          "key": "DEFINITION",
+          "value": "name hint record."
+        }
+      ]
+    }
+  }
+}

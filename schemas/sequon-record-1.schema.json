@@ -1,0 +1,344 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sequon:schema:record:1",
+  "title": "Sequon canonical record (sequon/record/1)",
+  "description": "Canonical, single-sequence record as serialized by Sequon. This JSON Schema validates structure and value domains only. Cross-field invariants are not expressible in JSON Schema and are owned by Record::validate(): on a linear record every segment satisfies 0 <= start <= end <= length; on a circular record a zero-length site keeps 0 <= start = end <= length and a spanning segment satisfies 0 <= start < length and end <= start + length (end may exceed length by at most one wrap), length equals the number of characters in sequence, and both digests equal the recomputed sha256 values for the record. JSON Schema 'integer' also accepts 1.0, so the no-floating-point rule of docs/design/canonical-json-profile.md is a serializer rule, not a schema rule. extras is the only forward-compatible extension point at the envelope level; core code never interprets it.",
+  "$comment": "Field order in a canonical document follows the declaration order of this schema's properties. Serialization rule for optional fields: nullable fields (description, molecule_type, feature.so_term, feature.name, diagnostic.position, diagnostic.record_index) are always present in a canonical document and are JSON null when unknown; non-nullable optional fields (dropped and preserved convenience fields) are omitted when unknown. Schema validation accepts the absence of both kinds so hand-authored documents remain valid. See docs/design/canonical-json-profile.md and docs/design/diagnostics.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "kind",
+    "topology",
+    "name",
+    "length",
+    "sequence",
+    "digests",
+    "features",
+    "provenance",
+    "extras"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sequon/record/1",
+      "description": "Contract identifier for this envelope version."
+    },
+    "kind": {
+      "enum": [
+        "dna",
+        "rna",
+        "protein"
+      ],
+      "description": "Molecule kind. v1 adapters only produce 'dna'; 'rna' and 'protein' are reserved for later milestones and are not a shipped capability."
+    },
+    "molecule_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ds-DNA",
+        "ss-DNA",
+        "other",
+        null
+      ],
+      "description": "Optional, nullable molecule type. A format subtype that maps to no known value is stored as 'other' and reported with MOLECULE_TYPE_UNKNOWN."
+    },
+    "topology": {
+      "enum": [
+        "linear",
+        "circular"
+      ],
+      "description": "Stored explicitly. A missing source value is a typed error, never an assumed 'linear'."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Record name from the source format or a caller hint. There is no synthesized default."
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Optional, nullable description (for GenBank, the DEFINITION text; the original header text is also preserved in extras.genbank.header)."
+    },
+    "length": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of bases or residues. Record::validate() requires it to equal the sequence length."
+    },
+    "sequence": {
+      "type": "string",
+      "pattern": "^[ACGTNRYSWKMBDHV]+$",
+      "description": "Normalized sequence: uppercase IUPAC nucleotide letters, no whitespace, no digits. Record::validate() rejects anything else."
+    },
+    "digests": {
+      "$ref": "#/$defs/digests"
+    },
+    "features": {
+      "type": "array",
+      "description": "Features in canonical order. Canonical order is the order produced by the adapter (source order); it is preserved verbatim, not sorted.",
+      "items": {
+        "$ref": "#/$defs/feature"
+      }
+    },
+    "provenance": {
+      "$ref": "#/$defs/provenance"
+    },
+    "extras": {
+      "type": "object",
+      "description": "Free-form extension point, isolated by adapter namespace (for example 'genbank' and 'snapgene'). Only the adapter that owns a namespace may write to it; unknown namespaces are preserved. Core code never interprets extras, and extras does not participate in the canonical digest."
+    }
+  },
+  "$defs": {
+    "digests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "sequence",
+        "canonical"
+      ],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Digest algorithm identifier. v1 emits 'sequon-digest/1'; consumers dispatch on this value and must not assume it."
+        },
+        "sequence": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "sha256 of the normalized sequence in its recorded orientation. Direction-sensitive identity of one encoding."
+        },
+        "canonical": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "sha256 of the canonical form: linear records use min(sequence, reverse complement); circular records use min(min-rotation(sequence), min-rotation(reverse complement)). Rotation- and strand-invariant identity, permanent across parser versions."
+        }
+      }
+    },
+    "feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "location",
+        "qualifiers"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Feature key as written by the source (for example 'CDS', 'misc_feature'). Never rewritten; unknown keys are kept and reported."
+        },
+        "so_term": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional, nullable Sequence Ontology term derived by the adapter from a static table. Null means 'not derived', not 'unknown'; the adapter never guesses."
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional, nullable feature name."
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        },
+        "qualifiers": {
+          "type": "array",
+          "description": "Ordered key/value pairs. Duplicate keys and input order are preserved; this is the only qualifier storage.",
+          "items": {
+            "$ref": "#/$defs/qualifier"
+          }
+        }
+      }
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operator",
+        "strand",
+        "segments"
+      ],
+      "properties": {
+        "operator": {
+          "enum": [
+            "span",
+            "join",
+            "order"
+          ],
+          "description": "'span' is exactly one segment; 'join' and 'order' keep the segment order as written (order carries semantics and is never sorted)."
+        },
+        "strand": {
+          "enum": [
+            -1,
+            0,
+            1
+          ],
+          "description": "Strand relative to the recorded sequence: 1 forward, -1 reverse complement, 0 unknown/unstranded. Complement changes only this field, never segment coordinates."
+        },
+        "segments": {
+          "type": "array",
+          "minItems": 1,
+          "description": "At least one segment, 0-based half-open, in canonical order. On a circular sequence a single range that crosses the origin is one unwrapped segment with end > length (at most one wrap, resolved on access), while an explicitly split source keeps its segments split; both forms are valid. end > length never appears on a linear record.",
+          "items": {
+            "$ref": "#/$defs/segment"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operator": {
+                "const": "span"
+              }
+            },
+            "required": [
+              "operator"
+            ]
+          },
+          "then": {
+            "properties": {
+              "segments": {
+                "minItems": 1,
+                "maxItems": 1
+              }
+            },
+            "required": [
+              "segments"
+            ]
+          }
+        }
+      ]
+    },
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "end",
+        "start_partial",
+        "end_partial"
+      ],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "0-based inclusive start."
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "0-based exclusive end. A zero-length segment (start == end) represents a between-positions site (n^m). On a circular record a spanning segment may exceed length by at most its start (one origin crossing, stored unwrapped and resolved on access); on a linear record end never exceeds length."
+        },
+        "start_partial": {
+          "type": "boolean",
+          "description": "True when the source marked the start as partial ('<')."
+        },
+        "end_partial": {
+          "type": "boolean",
+          "description": "True when the source marked the end as partial ('>')."
+        }
+      }
+    },
+    "qualifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Qualifier name without the leading slash."
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Qualifier value as text; null for a bare qualifier such as /pseudo. No type coercion and no semantic rewriting."
+        }
+      }
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "name",
+        "version"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "parser",
+            "algorithm",
+            "manual"
+          ],
+          "description": "'parser' for format adapters (v1 only), 'algorithm' for computed records, 'manual' for hand-authored records. A producer never claims to be a parser when it is not."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Producer name, for example 'sequon-io'."
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Producer crate version, for example '0.1.0'."
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "producer",
+        "source_format",
+        "source_digest",
+        "source_bytes",
+        "export_version"
+      ],
+      "properties": {
+        "producer": {
+          "$ref": "#/$defs/producer"
+        },
+        "source_format": {
+          "enum": [
+            "genbank",
+            "snapgene-dna"
+          ],
+          "description": "Format the record was imported from."
+        },
+        "source_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "sha256 of the exact source bytes that produced the record."
+        },
+        "source_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Length of the source input in bytes."
+        },
+        "export_version": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "description": "SnapGene export version for 'snapgene-dna' sources; null for formats that do not carry one (for example GenBank)."
+        }
+      }
+    }
+  }
+}

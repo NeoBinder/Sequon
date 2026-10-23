@@ -3,3 +3,6 @@
 .env
 .idea/
 .vscode/
+.worktrees/
+/testdata/paired/
+/testdata/corpus-local/

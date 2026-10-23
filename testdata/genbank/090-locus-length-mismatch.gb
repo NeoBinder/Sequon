@@ -1,0 +1,8 @@
+LOCUS       SYN090                   100 bp    DNA       linear SYN 01-JAN-2000
+DEFINITION  length mismatch.
+FEATURES             Location/Qualifiers
+     CDS             1..60
+                     /gene="short"
+ORIGIN
+        1 ATGTTCCATC CGAGGAACCA AGTACAGAGG CTTAATCAAA ACGCTGGGGA CAGCAAAGTG
+//

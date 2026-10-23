@@ -1,0 +1,139 @@
+{
+  "schema": "sequon/record/1",
+  "kind": "dna",
+  "molecule_type": "ds-DNA",
+  "topology": "circular",
+  "name": "SYN010",
+  "description": "circular synthetic plasmid.",
+  "length": 300,
+  "sequence": "TATTGCTTTACAAAATTAAGGCCCAAAAGCGAGGACAGTAACTATTCACGGAAGCGGGCAGGAGACGCCAATCCCCTGCGTCTGTACTCGGCGTAGTGCCGACGGACCAGAACAATGTGGGGAAGATCTGCAGTAAACAACCAGTTCAGTCACTTCCTTCGACTGATCTGTACGTGCAGACATGGACCAATCGATGATGGACTCGGATCGTGTCGTAAGACGAGCGTTATGGTCGACCACAAAGTGTGTAACGGCTTTCCGGTCTGTCCGATAAATCATCTATACAAGGATCAATCTGGA",
+  "digests": {
+    "algorithm": "sequon-digest/1",
+    "sequence": "sha256:f99ce328a10dc84fabc9e8c71968dfc7e56b5197b46b92e9370485d4421cd038",
+    "canonical": "sha256:082ac720fbd52ce1c8d8aafcd70c70a1f5ee60e49681a14037bff7e5b7d96b5a"
+  },
+  "features": [
+    {
+      "key": "source",
+      "so_term": "SO:0002206",
+      "name": null,
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 300,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "organism",
+          "value": "synthetic construct"
+        }
+      ]
+    },
+    {
+      "key": "CDS",
+      "so_term": "SO:0000316",
+      "name": "repA",
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 9,
+            "end": 100,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "gene",
+          "value": "repA"
+        }
+      ]
+    },
+    {
+      "key": "promoter",
+      "so_term": "SO:0000167",
+      "name": null,
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 0,
+            "end": 20,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "note",
+          "value": "synthetic promoter"
+        }
+      ]
+    },
+    {
+      "key": "rep_origin",
+      "so_term": "SO:0000296",
+      "name": null,
+      "location": {
+        "operator": "span",
+        "strand": 1,
+        "segments": [
+          {
+            "start": 199,
+            "end": 250,
+            "start_partial": false,
+            "end_partial": false
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "key": "note",
+          "value": "synthetic origin"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "producer": {
+      "kind": "parser",
+      "name": "sequon-io",
+      "version": "0.1.0"
+    },
+    "source_format": "genbank",
+    "source_digest": "sha256:7367d8661cb21cebbcb28f884a794abcd391ccb7d7ff04da5a80479f3a60dc73",
+    "source_bytes": 886,
+    "export_version": null
+  },
+  "extras": {
+    "genbank": {
+      "division": "SYN",
+      "header": [
+        {
+          "key": "DEFINITION",
+          "value": "circular synthetic plasmid."
+        },
+        {
+          "key": "ACCESSION",
+          "value": "SYN010"
+        },
+        {
+          "key": "VERSION",
+          "value": "SYN010.1"
+        }
+      ]
+    }
+  }
+}

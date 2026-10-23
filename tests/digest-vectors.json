@@ -1,0 +1,95 @@
+{
+  "algorithm": "sequon-digest/1",
+  "description": "Digest test vectors for sequon-digest/1. Every expected value was computed independently with Python hashlib and the equivalence-class definition in docs/design/canonical-model.md, not derived from the Rust implementation. same_canonical_as and sequence_differs_from are the negative expectations: reverse-complementing or rotating a sequence changes its sequence digest but not its canonical digest.",
+  "linear": [
+    {
+      "name": "linear-basic",
+      "input": "ATGCGTACGTAGCTAGCTAGCATCGATCGA",
+      "normalized": "ATGCGTACGTAGCTAGCTAGCATCGATCGA",
+      "sequence_digest": "sha256:4540407a9f379b465bcc5d96f5b117017dc23ba8383de8a9c472e7a12eabda5e",
+      "canonical_digest": "sha256:4540407a9f379b465bcc5d96f5b117017dc23ba8383de8a9c472e7a12eabda5e"
+    },
+    {
+      "name": "linear-basic-revcomp",
+      "input": "TCGATCGATGCTAGCTAGCTACGTACGCAT",
+      "normalized": "TCGATCGATGCTAGCTAGCTACGTACGCAT",
+      "sequence_digest": "sha256:5c7d7ef6b6ca27d1338b7963cea9b1af67175b3e9ce458a57da760b502e5a566",
+      "canonical_digest": "sha256:4540407a9f379b465bcc5d96f5b117017dc23ba8383de8a9c472e7a12eabda5e",
+      "same_canonical_as": "linear-basic",
+      "sequence_differs_from": "linear-basic"
+    },
+    {
+      "name": "linear-iupac",
+      "input": "NGATCRYSWKMBDHVNGATCRYSWKMBDHV",
+      "normalized": "NGATCRYSWKMBDHVNGATCRYSWKMBDHV",
+      "sequence_digest": "sha256:66a7625f30364bd2378722099efc2eca1d30e412ca5351305a0c848475cd137d",
+      "canonical_digest": "sha256:43d70db8d5dd6fafc876d1f9fa4aacd4249fe1e3801a637d7fb94386017d3bdb"
+    },
+    {
+      "name": "linear-iupac-revcomp",
+      "input": "BDHVKMWSRYGATCNBDHVKMWSRYGATCN",
+      "normalized": "BDHVKMWSRYGATCNBDHVKMWSRYGATCN",
+      "sequence_digest": "sha256:43d70db8d5dd6fafc876d1f9fa4aacd4249fe1e3801a637d7fb94386017d3bdb",
+      "canonical_digest": "sha256:43d70db8d5dd6fafc876d1f9fa4aacd4249fe1e3801a637d7fb94386017d3bdb",
+      "same_canonical_as": "linear-iupac",
+      "sequence_differs_from": "linear-iupac"
+    },
+    {
+      "name": "linear-normalized-lowercase-whitespace",
+      "input": "atgc gtcg\ntta 1234 cgtg",
+      "normalized": "ATGCGTCGTTACGTG",
+      "sequence_digest": "sha256:d3776599ad6027640cd44bd8877a29ef98b598dce5b04313dd11d782b575b606",
+      "canonical_digest": "sha256:d3776599ad6027640cd44bd8877a29ef98b598dce5b04313dd11d782b575b606"
+    }
+  ],
+  "circular": [
+    {
+      "name": "circular-basic",
+      "input": "GATCCTAGCTAGGCTAAGCTTACCGAT",
+      "normalized": "GATCCTAGCTAGGCTAAGCTTACCGAT",
+      "sequence_digest": "sha256:5c86ef5e7ab4d3b1d695d1c190c0ecf434009a8094bb9b6926f5267eb44a310f",
+      "canonical_digest": "sha256:f155032fa9e29d4ce231cd2cb35b034833e2f6473dca2a204980c467a506a865"
+    },
+    {
+      "name": "circular-rotation",
+      "input": "GCTAGGCTAAGCTTACCGATGATCCTA",
+      "normalized": "GCTAGGCTAAGCTTACCGATGATCCTA",
+      "sequence_digest": "sha256:c902c2986b28053b2a2534f8115b6aa5f234a62f8322cec603d105df55402f33",
+      "canonical_digest": "sha256:f155032fa9e29d4ce231cd2cb35b034833e2f6473dca2a204980c467a506a865",
+      "same_canonical_as": "circular-basic",
+      "sequence_differs_from": "circular-basic"
+    },
+    {
+      "name": "circular-revcomp",
+      "input": "ATCGGTAAGCTTAGCCTAGCTAGGATC",
+      "normalized": "ATCGGTAAGCTTAGCCTAGCTAGGATC",
+      "sequence_digest": "sha256:e27e2c263b17cae87ac84d611b7e1d7023252fcfab8de676843aa244c93f971d",
+      "canonical_digest": "sha256:f155032fa9e29d4ce231cd2cb35b034833e2f6473dca2a204980c467a506a865",
+      "same_canonical_as": "circular-basic",
+      "sequence_differs_from": "circular-basic"
+    },
+    {
+      "name": "circular-revcomp-rotation",
+      "input": "TAGCCTAGCTAGGATCATCGGTAAGCT",
+      "normalized": "TAGCCTAGCTAGGATCATCGGTAAGCT",
+      "sequence_digest": "sha256:384ba2ac16aa57e67d4c8790be68500deb64ee9b7c77888410094a61256325d7",
+      "canonical_digest": "sha256:f155032fa9e29d4ce231cd2cb35b034833e2f6473dca2a204980c467a506a865",
+      "same_canonical_as": "circular-basic",
+      "sequence_differs_from": "circular-basic"
+    },
+    {
+      "name": "circular-iupac",
+      "input": "NNNGATCCTAGCRYSWKMBDHVGATCCTA",
+      "normalized": "NNNGATCCTAGCRYSWKMBDHVGATCCTA",
+      "sequence_digest": "sha256:ec714e189d258e26161fc9350b7f9d52d8b022358a952af970b54dad31ed4078",
+      "canonical_digest": "sha256:c59efa9a7c3761b8e12c28877d840a1fcd1eb3626ce5fd955b5e8e8bf5a6f832"
+    },
+    {
+      "name": "circular-contract-model-example",
+      "input": "ATGAGCAAAGGTGAAGAACTGTTTACCGGTGTGGTGCCGATCCTGGTGGAACTGGATGGTAACGGTAAATAA",
+      "normalized": "ATGAGCAAAGGTGAAGAACTGTTTACCGGTGTGGTGCCGATCCTGGTGGAACTGGATGGTAACGGTAAATAA",
+      "sequence_digest": "sha256:8d1653fb92457a81ac44417b35fcd789ec09ad0b60e6cbc687d63e9e6d4c4277",
+      "canonical_digest": "sha256:1cf59a87dc7cd3ad98b286e2b561a4e7820573ce91692fabdb297c106b4fd4b1"
+    }
+  ]
+}
