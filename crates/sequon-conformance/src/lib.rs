@@ -24,5 +24,6 @@
 //! `schemas/examples/`, plus negative cases that must be rejected.
 #![deny(missing_docs)]
 
+pub mod compare;
 pub mod dna_builder;
 pub mod snapgene_fixtures;

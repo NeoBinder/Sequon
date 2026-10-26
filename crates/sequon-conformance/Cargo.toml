@@ -11,28 +11,35 @@ publish = false
 # never a dependency of sequon-model/sequon-io/sequon-algo.
 #
 # Versions verified 2026-10-21 with cargo 1.97.1:
-# - serde_json 1.0.154 (MIT OR Apache-2.0), inherited from the workspace;
-# - sha2 0.10.9 (MIT OR Apache-2.0), inherited from the workspace, used by the
-#   fixture determinism test;
+# - serde 1.0.229 (MIT OR Apache-2.0), inherited from the workspace, for report
+#   serialization;
+# - serde_json 1.0.154 (MIT OR Apache-2.0), inherited from the workspace, for
+#   --json output and test parsing;
+# - jsonschema 0.59.0 (MIT), dev-dependency only, default features disabled:
+#   the schemas are self-contained, so no HTTP retriever or TLS stack is needed.
+#   It is reachable only from this publish = false harness; the library crates
+#   and every published tree stay free of it. All crates in its wasi target
+#   chain are permissively licensed, so deny.toml needs no exception.
+# - sha2 0.10.9 (MIT OR Apache-2.0), inherited from the workspace, dev-only, used
+#   by the fixture determinism test;
 # - lzma-rs =0.3.0 (MIT, 2023-01-04), documented in docs/design/snapgene-dna.md
-#   section 2.2 and pinned exactly for the history-packet builder. It is a
-#   normal dependency rather than a dev-dependency because both the builder
-#   module and the fixture-generation binary use it; this crate is still
-#   dev-only (publish = false) and absent from every runtime tree.
+#   section 2.2 and pinned exactly for the history-packet builder;
+# - sequon-io (genbank + snapgene features), sequon-model and sequon-algo are
+#   normal dependencies because the compare module and the sequon-conformance
+#   binary import, validate and digest-check records. They are the workspace's
+#   own crates, not new third-party dependencies; this crate remains
+#   publish = false and absent from every runtime tree.
 #
 # Do not add other dependencies here without a design note. The harness must
 # stay small and must never become a runtime dependency of the library crates.
 [dependencies]
 lzma-rs = { version = "=0.3.0", default-features = false }
-
-[dev-dependencies]
-# The M4 reader/model/algo are dev-dependencies of this dev-only crate: goldens
-# are produced by importing with the committed reader, then validated and
-# digest-verified. Nothing here reaches a runtime tree; the adapter crates do
-# not depend on this crate. Features are explicit so the golden suite does not
-# silently pass with the snapgene adapter compiled out.
+serde = { workspace = true }
+serde_json = { workspace = true }
 sequon-io = { workspace = true, features = ["genbank", "snapgene"] }
 sequon-model = { workspace = true }
 sequon-algo = { workspace = true }
-serde_json = { workspace = true }
+
+[dev-dependencies]
+jsonschema = { version = "0.59.0", default-features = false }
 sha2 = { workspace = true }

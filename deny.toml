@@ -13,8 +13,8 @@
 #   the resolved Cargo.lock inventory, not from guesses.
 
 [graph]
-# Check every target dependency in the lockfile, including target-specific
-# crates.
+# Include every feature in the graph, so optional and dev-only crates are
+# licence-checked too.
 all-features = true
 
 [advisories]
@@ -23,8 +23,12 @@ yanked = "warn"
 ignore = []
 
 [licenses]
-# Every licence that actually appears in the resolved tree. The project itself
-# is MIT (Q10: dual licensing was considered and is not adopted).
+# Only licences that actually appear in the resolved tree; re-derive this list
+# with cargo deny check licenses whenever the dependency tree changes. No
+# per-crate exception is needed: every crate in the lockfile is MIT/Apache-2.0
+# dual-licensed or permissive (the wasi target crates are
+# "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT"), so the allowlist below
+# is the whole licence policy.
 allow = [
     "MIT",
     "Apache-2.0",
@@ -32,11 +36,6 @@ allow = [
     "Unicode-3.0",
 ]
 confidence-threshold = 0.9
-
-# No crate-specific licence exceptions are needed: the dependency tree is fully
-# permissive. JSON Schema validation runs in Python (tools/validate_contract.py)
-# instead of a Rust crate, which removed the jsonschema -> getrandom -> r-efi
-# LGPL chain from Cargo.lock.
 
 [bans]
 multiple-versions = "warn"

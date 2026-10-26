@@ -1,10 +1,8 @@
 //! Rust-side contract shape checks.
 //!
-//! Full JSON Schema validation is *not* done here: it runs in
-//! `tools/validate_contract.py` (CI installs Python jsonschema), which keeps the
-//! Rust dependency tree free of the jsonschema crate and its LGPL `r-efi` chain.
-//!
-//! These tests keep the Rust-side guarantees that do not need a schema engine:
+//! Full JSON Schema validation runs in `tests/schema_validation.rs` (the
+//! `jsonschema` crate is a dev-dependency of this dev-only harness). These tests
+//! add the serde/model-level guarantees that do not need a schema engine:
 //! the schema files still declare the expected identity and required fields,
 //! the committed examples parse into the typed model and validate, and the
 //! typed parsers reject unknown envelope fields and floating-point numbers.
@@ -61,6 +59,10 @@ fn schemas_declare_the_expected_contract_identity() {
 
     assert_eq!(
         record.get("$schema").and_then(Value::as_str),
+        Some("https://json-schema.org/draft/2020-12/schema")
+    );
+    assert_eq!(
+        report.get("$schema").and_then(Value::as_str),
         Some("https://json-schema.org/draft/2020-12/schema")
     );
     assert_eq!(

@@ -27,11 +27,6 @@ jobs:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
 
-      - name: JSON Schema contract (Python)
-        run: |
-          python3 -m pip install --disable-pip-version-check --quiet "jsonschema>=4.23"
-          python3 tools/validate_contract.py
-
       - name: Format
         run: |
           cargo fmt --all -- --check
@@ -87,6 +82,18 @@ jobs:
             echo "error: sequon-algo gained a parser dependency" >&2
             exit 1
           fi
+
+          # JSON Schema validation is a dev-only dependency of the conformance
+          # harness. No library crate may reach it (or its target-specific
+          # getrandom/wasi chain) through any feature, target or build-dependency
+          # route, so inspect the full normal tree of every library crate.
+          for crate in sequon-model sequon-algo sequon-io; do
+            if cargo tree -p "$crate" -e normal --all-features --target all \
+                | grep -Eq 'jsonschema|getrandom|r-efi|wasip2|wit-bindgen'; then
+              echo "error: $crate can reach the dev-only schema engine" >&2
+              exit 1
+            fi
+          done
 
           # No third-party domain parser may appear in the lockfile.
           if grep -Eq 'name = "(gb-io|sgffp|biopython|teselagen|bio-parsers)"' Cargo.lock; then

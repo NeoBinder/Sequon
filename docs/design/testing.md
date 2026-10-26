@@ -16,9 +16,10 @@ Related: [canonical model](canonical-model.md),
 | --- | --- | --- |
 | unit | `crates/*/src/**` `#[cfg(test)]` | lexing, location grammar, header mapping, 2-bit decoding, digests, validation |
 | adapter integration | `crates/sequon-io/tests/*.rs` | file-level import, typed error codes, limits, determinism, malicious input |
-| contract | `tools/validate_contract.py` (CI) and `crates/sequon-conformance/tests/contract_shapes.rs` | schemas compile as 2020-12; every example and golden validates; negative cases are rejected; Rust side checks identities, typed parsing and unknown-field/float rejection |
+| contract | `crates/sequon-conformance/tests/schema_validation.rs` | schemas compile; every `schemas/examples/*.json` validates; negative cases are rejected |
 | fixture determinism | `crates/sequon-conformance/tests/snapgene_fixtures.rs` | committed `.dna` bytes equal the builder output, sha256 matches `testdata/README.md`, container shape is independently walked |
-| goldens | `crates/sequon-conformance/tests/snapgene_goldens.rs` | successful fixtures re-import to a valid record, digests verify, canonical JSON byte-equals the golden; failing fixtures return their documented code and have no golden (schema validation of goldens runs in the Python contract gate) |
+| goldens | `crates/sequon-conformance/tests/snapgene_goldens.rs` | successful fixtures re-import to a valid record, digests verify, canonical JSON byte-equals the golden, goldens validate against the record schema; failing fixtures return their documented code and have no golden |
+| cross-format compare (C9) | `crates/sequon-conformance/src/compare.rs`, `tests/compare.rs`, `src/bin/sequon-conformance.rs` | `.dna` versus GenBank semantic comparison: synthetic writer round-trip must pass every threshold; negative cases fail their category; CLI exit codes 0/1/2; local pET-28a pair gated on `testdata/corpus-local/` |
 | dependency policy | `crates/sequon-conformance/tests/dependency_gate.rs` | `Cargo.lock` and manifests contain no banned domain parser; library crates keep their documented runtime dependencies; dev-only crates stay out of the runtime graph |
 | performance | `crates/sequon-conformance/tests/bench_regression.rs` | ignored guard against accidental quadratic import behaviour |
 | fuzz | `fuzz/fuzz_targets/{genbank,dna,location}.rs` | untrusted input never panics, hangs or yields an invalid record |
@@ -32,8 +33,6 @@ not considered verified.
 The gates that must pass before landing (plan section 7.8):
 
 ```text
-python3 -m pip install "jsonschema>=4.23"   # CI installs it before the contract step
-python3 tools/validate_contract.py
 cargo fmt --all -- --check
 cargo clippy --all-targets --all-features -- -D warnings
 cargo test --all-features
@@ -72,6 +71,48 @@ editing sibling files; use package-scoped commands and the final gates.
   to escalate. It is not a reason to change the golden or the expectation.
 - The local `testdata/corpus-local/` corpus and `testdata/paired/` ground truth
   stay out of git (Q8) and are never required by CI.
+
+### 3.1 Cross-format compare tool (C9)
+
+```text
+cargo run -p sequon-conformance --bin sequon-conformance -- compare \
+  --dna <path.dna> --gb <path.gb> [--json <out.json>] [--feature-threshold 0.99]
+```
+
+The tool imports exactly one record per file with `sequon-io`, runs
+`Record::validate()` and `sequon_algo::verify_digests()`, and reports:
+
+- sequence: lengths, normalized equality, direction-sensitive sequence digest
+  equality, and canonical digest equality when the topology matches;
+- topology equality;
+- features: Jaccard over the multiset of `(key, first.start, last.end,
+  strand)` with origin-resolved segments, the documented threshold (default
+  0.99), missing / extra lists, duplicate-count differences, and a
+  segment-set-aware secondary Jaccard that is informational;
+- qualifiers: per matched feature, multiset differences after documented
+  normalization (trim, quote-escape reversal, outer quotes, whitespace
+  collapse, case-folded values);
+- primers: `primer_bind` counts, 100% required.
+
+Exit codes are `0` (all thresholds pass and no differences), `1` (threshold
+failure or any difference, including informational ones) and `2` (usage,
+file, import, multi-record or validation error). `--json` writes the report as
+JSON marked `sequon/conformance-compare/1`; it is a dev-only report, not a
+contract schema (it contains floating-point numbers, so the canonical JSON
+profile does not apply), and it carries the report and input file names only,
+never machine paths.
+
+Tests in `crates/sequon-conformance/tests/compare.rs` build a synthetic
+`.dna`, import it, write GenBank, import that and require a 100% pass; they
+mutate one base, the topology, the feature set and a qualifier to require the
+documented failures, and cover duplicate features (multiset semantics), a
+quoted qualifier round-trip, primer counts, empty feature sets and an
+origin-crossing circular span against its split `join`; and they run the binary
+through `std::process::Command` for the exit codes. A local pET-28a(+) pair is compared when
+`testdata/corpus-local/pet28a-pair/` exists: sequence, topology and canonical
+digests must match, and the feature gate must fail because the GenBank file is a
+patent record with two features rather than a SnapGene Save-As export
+(`testdata/README.md` section 8.4).
 
 ## 4. Fuzz
 

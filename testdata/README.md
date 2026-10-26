@@ -567,10 +567,15 @@ never committed.
    edit either file afterwards.
 4. Record in `testdata/paired/manifest.local.md` (local-only):
    SnapGene version, OS, date, `<stem>`, and sha256 of both files.
-5. Run the comparison command (deliverable C9, available from M5):
-   `cargo run -p sequon-conformance -- compare --dna testdata/paired/<stem>.dna --gb testdata/paired/<stem>.gb --out target/conformance/<stem>.json`.
-   Until that binary exists, perform the comparison manually and record the
-   same facts.
+5. Run the comparison tool (deliverable C9):
+   `cargo run -p sequon-conformance --bin sequon-conformance -- compare --dna testdata/paired/<stem>.dna --gb testdata/paired/<stem>.gb --json target/conformance/<stem>.json`.
+   It imports exactly one record from each file, runs `Record::validate()` and
+   `sequon_algo::verify_digests()`, and reports sequence, topology, feature,
+   qualifier and primer results. Exit codes: `0` every threshold passes and no
+   difference was reported; `1` a threshold failed or a difference was
+   reported (including an informational segment-set difference); `2` usage,
+   file, import, multi-record or validation error. Treat `2` as a hard
+   comparison failure, never as a skip.
 6. Classify every difference in the register (section 9) and attach the report
    to the milestone record.
 
@@ -584,16 +589,38 @@ row. Paired files are never copied into `testdata/genbank/` or
 | --- | --- | --- |
 | sequence | 100% | equal after normalization: uppercase, remove whitespace and digits, keep ambiguous IUPAC letters; one base difference fails |
 | topology | 100% | `linear`/`circular` must match |
-| features | Jaccard >= 99% | tuple `(key, start, end, strand)` after one 0-based half-open normalization; `start` = first segment start, `end` = last segment end; keys compared as written |
+| features | Jaccard >= 99% | multiset of the tuple `(key, start, end, strand)` after one 0-based half-open normalization; `start` = first segment start, `end` = last segment end; keys compared as written; duplicate counts must match and a duplicate-count difference is reported even when the Jaccard would pass |
 | qualifiers | exact modulo documented normalization | only outer quote removal, quote-escape reversal, line unfolding/whitespace collapse and case-only value differences are allowed; everything else is a difference |
 | primers | 100% | every SnapGene primer appears as a `primer_bind` feature with matching name and binding site |
 
 **Pass/fail definition (lead decision, T6):** the primary feature comparison
 is the coarse tuple above: `key`, the start of the first normalized segment,
-the end of the last normalized segment, and strand. A segment-set comparison
-is reported as an informational secondary metric and is not a gate. Passing
-thresholds is necessary but not sufficient: an explained difference can still
-be a parser defect.
+the end of the last normalized segment, and strand, with duplicates counted.
+Segments are origin-resolved before the tuple is built, so a wrapped circular
+span and an explicitly split `join` that keeps the same origin-crossing order
+(tail segment first, as the GenBank writer emits it) compare equally. Duplicates
+are never cancelled out: a differing duplicate count is reported as a feature
+difference so an extra copy cannot hide behind set semantics. A segment-set comparison is reported as
+an informational secondary metric and is not a gate. Passing thresholds is
+necessary but not sufficient: an explained difference can still be a parser
+defect. The comparator never auto-accepts a difference; every report line is
+reviewed and classified in section 9.
+
+### 8.4 Local patent pair (not a SnapGene Save-As)
+
+`testdata/corpus-local/pet28a-pair/` (gitignored) holds a locally downloaded
+pET-28a(+) pair: the vendor `.dna` (5369 bp, circular, 16 features) and
+`pET-28a(+)-PU845465-circular.gb`, an NCBI patent record with its LOCUS
+topology changed from `linear` to `circular` so it can be compared as the same
+molecule. It is **not** a SnapGene `Save As` export: the GenBank record has only
+two features (`source`, `misc_feature`) against the map's 16, so the feature
+Jaccard is expected to be 0.0 and the run exits 1. Sequence, topology and the
+sequence/canonical digests match, which makes it a useful regression for the
+sequence and topology path and for the comparator's difference reporting. Its
+feature result must not be used as the section 7.5 ground-truth gate; generate
+that pair with the fixed SnapGene version as described above. The gated test in
+`crates/sequon-conformance/tests/compare.rs` asserts exactly this behaviour and
+skips silently when the files are absent.
 
 ## 9. Known-differences register
 
@@ -684,20 +711,21 @@ and explanation. Meeting the numeric thresholds does not override this rule.
 
 ## 12. Tooling versions (verified)
 
-Verified on 2026-10-21 with cargo 1.97.1 (`cargo info <crate> --registry crates-io`); the Python validator is installed by CI (2026-10-22):
+Verified on 2026-10-21 with cargo 1.97.1 (`cargo info <crate> --registry crates-io`):
 
 | Crate | Version | Licence | Notes |
 | --- | --- | --- | --- |
 | `serde_json` | 1.0.154 | MIT OR Apache-2.0 | JSON parsing for the validation harness |
-| `jsonschema` (Python) | >=4.23 | MIT | JSON Schema validation runs in `tools/validate_contract.py` (CI installs it). No Rust dev-dependency: that keeps the `jsonschema -> getrandom -> r-efi` LGPL chain out of `Cargo.lock`. |
+| `jsonschema` | 0.59.0 | MIT | schema validation; dev-dependency only, default features off because the schemas are self-contained; its target-specific wasi chain is permissively licensed, so `deny.toml` needs no exception |
 | `sha2` | 0.10.9 | MIT OR Apache-2.0 | fixture determinism gate: sha256 of rebuilt and committed bytes |
 | `lzma-rs` | 0.3.0 | MIT | history payload compression for fixtures 011/080; exact pin, default features off; used only by the dev-only conformance crate |
 
 The conformance crate is a development-only package (`publish = false`) and is
 not part of the runtime dependency tree. `sequon-io` (features `genbank` and
-`snapgene`), `sequon-model` and `sequon-algo` are **dev-dependencies** here:
-goldens are produced and re-checked by the committed reader, but no runtime
-crate depends on this harness. Its schema tests run with
+`snapgene`), `sequon-model` and `sequon-algo` are normal dependencies of this
+dev-only harness, because the C9 compare binary imports, validates and
+digest-checks records; no library crate depends on the harness, and no
+published tree can reach it. Its schema tests run with
 `cargo test -p sequon-conformance`; they compile both schemas, validate every
 `schemas/examples/*.json` document and exercise the negative cases listed in
 the test module. The fixture gate

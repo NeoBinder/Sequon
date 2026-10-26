@@ -9,7 +9,7 @@
 //!   `sequon_algo::verify_digests()`;
 //! - re-serializing it byte-equals the committed golden;
 //! - the golden parses back into a valid record with verified digests (full
-//!   JSON Schema validation of every golden runs in `tools/validate_contract.py`);
+//!   JSON Schema validation of every golden runs in `tests/schema_validation.rs`);
 //! - every failing fixture returns its documented typed error code and has no
 //!   golden.
 //!
