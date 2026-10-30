@@ -13,6 +13,9 @@ under review; they may change without notice.
 | [snapgene-dna.md](snapgene-dna.md) | accepted, finalized at M4 (2026-10-21) | SnapGene `.dna` container, packet matrix, 2-bit encoding hypothesis, XML mapping, history/traces, codecs (Q9), malicious input, unverified-fact register, fixture inventory |
 | [consumer-integration.md](consumer-integration.md) | accepted, M5 (2026-10-21); revised 2026-10-22 for P1 projection, pin policy, compatibility window and embedded schema bytes; revised 2026-10-23 for circular cross-origin coordinates | Platform pinning, payload/transport ownership, report consumption, P1 projection and gaps; example in `crates/sequon-io/examples/` |
 | [testing.md](testing.md) | accepted, M5 | Test layers, fixtures and goldens, CI matrix, fuzz targets, dependency gate and performance regression |
+| [document-read-contract.md](document-read-contract.md) | accepted for R11 (2026-10-30) | Consumer contract for current/specific-version canonical document reads, identity pins, validation, caching and public DTO boundary |
+| [derived-analysis.md](derived-analysis.md) | accepted for R11 (2026-10-30) | Coordinate extraction, record/selection analysis, CDS/codon translation, GC, restriction sites, provenance, limits and typed errors |
+| [annotation-operations.md](annotation-operations.md) | accepted for R11 (2026-10-30) | Pure annotation-only feature operations, save-as-CDS, new Record validation, source-order identity, provenance and immutable versions |
 
 ## Rules
 
